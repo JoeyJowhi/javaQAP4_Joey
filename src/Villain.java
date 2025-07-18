@@ -1,4 +1,6 @@
-public class Villain extends StandUser {
+import java.io.Serializable;
+
+public class Villain extends StandUser implements Serializable {
     private String occupation, group, reason;
 
 
