@@ -1,4 +1,6 @@
-public class StandUser {
+import java.io.Serializable;
+
+public class StandUser implements Serializable {
     private static int count = 1;
     private String firstName, lastName, standName;
     private int age, fromPart, ID;
@@ -6,16 +8,20 @@ public class StandUser {
 
     //Constructors
     public StandUser(String firstName, String lastName, String standName, int age, int fromPart) {
-        this.ID = count++;
+        this.ID = count;
         this.firstName = firstName;
         this.lastName = lastName;
         this.standName = standName;
         this.age = age;
         this.fromPart = fromPart;
+
+        count++;
     }
 
     public StandUser() {
-        this.ID = count++;
+        this.ID = count;
+
+        count++;
     }
 
 

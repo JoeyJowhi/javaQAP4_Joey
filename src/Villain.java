@@ -12,13 +12,6 @@ public class Villain extends StandUser implements Serializable {
         this.reason = reason;
     }
 
-    public Villain() {
-        super();
-        this.occupation = "Unemployed";
-        this.group = "Unaffiliated";
-        this.reason = "Unknown";
-    }
-
 
     //Instance Methods
     public String toString() {

@@ -121,7 +121,7 @@ public class TestMenu {
                         PreparedStatement sqlCreateTable = connection.prepareStatement(
                                 """
                                 CREATE TABLE IF NOT EXISTS stand_users(
-                                id INTEGER UNIQUE NOT NULL,
+                                id SERIAL,
                                 first_name TEXT NOT NULL,
                                 last_name TEXT,
                                 stand_name TEXT,
@@ -138,16 +138,15 @@ public class TestMenu {
                         System.out.print("\rInserting Data...");
 
                         PreparedStatement sqlInsertInto = connection.prepareStatement("""
-                                INSERT INTO stand_users(id, first_name, last_name, stand_name, age, from_part) VALUES(?, ?, ?, ?, ?, ?);
+                                INSERT INTO stand_users(first_name, last_name, stand_name, age, from_part) VALUES(?, ?, ?, ?, ?);
                                 """);
 
                         for (StandUser su : standUserArrayList) {
-                            sqlInsertInto.setInt(1, su.getID());
-                            sqlInsertInto.setString(2, su.getFirstName());
-                            sqlInsertInto.setString(3, su.getLastName());
-                            sqlInsertInto.setString(4, su.getStandName());
-                            sqlInsertInto.setInt(5, su.getAge());
-                            sqlInsertInto.setInt(6, su.getFromPart());
+                            sqlInsertInto.setString(1, su.getFirstName());
+                            sqlInsertInto.setString(2, su.getLastName());
+                            sqlInsertInto.setString(3, su.getStandName());
+                            sqlInsertInto.setInt(4, su.getAge());
+                            sqlInsertInto.setInt(5, su.getFromPart());
 
                             sqlInsertInto.addBatch();
                         }
@@ -185,7 +184,19 @@ public class TestMenu {
                                 """);
 
                         ResultSet dbStandUsers = sqlSelectFrom.executeQuery();
-                        System.out.print(dbStandUsers);
+
+                        while (dbStandUsers.next()) {
+                            System.out.printf("""
+                                    \n---
+                                    ID: %d
+                                    first_name: %s
+                                    last_name: %s
+                                    stand_name: %s
+                                    age: %d
+                                    from_part: %d
+                                    ---
+                                    """, dbStandUsers.getInt(1), dbStandUsers.getString(2), dbStandUsers.getString(3), dbStandUsers.getString(4), dbStandUsers.getInt(5), dbStandUsers.getInt(6));
+                        }
                         sqlSelectFrom.close();
 
                         System.out.print("\nPress Enter to Return to Menu: ");
@@ -202,15 +213,69 @@ public class TestMenu {
                     }
                 case 5:
                     try {
-                        FileOutputStream fileOutput = new FileOutputStream("villains.txt");
+                        FileOutputStream fileOutput = new FileOutputStream("src/holdingCell.txt");
                         ObjectOutputStream objectFileOutput = new ObjectOutputStream(fileOutput);
 
+                        for (Villain v : villainArrayList) {
+                            objectFileOutput.writeObject(v);
+                        }
+
+                        objectFileOutput.close();
+                        fileOutput.close();
+
+                        System.out.println("Successfully Saved to holdingCell.txt.");
+
+                        System.out.print("\nPress Enter to Return to Menu: ");
+                        userInput.nextLine();
+                        break;
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
+                        break;
                     } catch (IOException e) {
                         e.printStackTrace();
+                        break;
                     }
+                case 6:
+                    try {
+                        FileInputStream fileInput = new FileInputStream("src/holdingCell.txt");
+                        ObjectInputStream objectFileInput = new ObjectInputStream(fileInput);
 
+                        ArrayList<Villain> villainReadList = new ArrayList<>();
+                        Object temp = null;
+
+                        while(true) {
+                            try {
+                                temp = objectFileInput.readObject();
+                            } catch (EOFException e) {
+                                break;
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            }
+
+                            villainReadList.add((Villain) temp);
+                        }
+
+                        System.out.println("-- Villains Found in holdingCell.txt --");
+                        System.out.println(villainReadList);
+
+                        System.out.print("\nPress Enter to Return to Menu: ");
+                        userInput.nextLine();
+                        break;
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        break;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        break;
+                    }
+                case 7:
+                    System.out.println("Thank you for using my program!\nHave an excellent day :)");
+                    userInput.close();
+                    stop = true;
+                    break;
+                default:
+                    System.out.print("\n   What you have entered is not an available option. Press Enter to Return to Menu: ");
+                    userInput.nextLine();
             }
         }
     }
