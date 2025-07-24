@@ -58,7 +58,7 @@ This project demonstrates two popular ways in which data can be stored (persiste
 <hr>
 
 <p>
-This project was pretty straightforward for me, any difficulties I ran into I was able to I was able to overcome fairly quick. 
+This project was pretty straightforward for me, any difficulties I ran into I was able to overcome fairly quickly.
 </p>
 
 
