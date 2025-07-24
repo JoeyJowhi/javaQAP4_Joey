@@ -112,7 +112,7 @@ public class TestMenu {
                         Connection connection = null;
                         Class.forName("org.postgresql.Driver");
 
-                        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/java");//?user=joey&password=2024");
+                        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/java");
 
                         System.out.print("\rSuccessfully Connected to Database.");
 
@@ -174,7 +174,7 @@ public class TestMenu {
                         Connection connection = null;
                         Class.forName("org.postgresql.Driver");
 
-                        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/java");//?user=joey&password=2024");
+                        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/java");
 
                         System.out.print("\rSuccessfully Connected to Database.");
 
